@@ -17,6 +17,7 @@
     "semi": ["error", "never"],
     "prefer-const": "off",
     "import/no-muttable-exports": "off",
-    "import/named": "off"
+    "import/named": "off",
+    "no-throw-literal": "off"
   }
 }

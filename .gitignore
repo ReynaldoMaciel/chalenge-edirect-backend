@@ -1,0 +1,9 @@
+node_modules
+package-lock.json
+development.db
+.env
+.env.testing
+__tests__/database.sqlite
+__tests__/coverage
+.DS_Store
+dist/

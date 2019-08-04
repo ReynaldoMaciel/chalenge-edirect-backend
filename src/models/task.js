@@ -4,25 +4,25 @@ import BaseModel from './BaseModel'
 
 Model.knex(knex)
 
-export default class User extends BaseModel {
+export default class Task extends BaseModel {
   static get tableName() {
-    return 'user'
+    return 'task'
   }
 
   static get idColumn() {
-    return 'idUser'
+    return 'idTask'
   }
 
   static get jsonSchema() {
     return {
       type: 'object',
-      required: ['name', 'email', 'password'],
+      required: ['description'],
 
       properties: {
-        idUser: { type: 'integer' },
-        name: { type: 'string', minLength: 1, maxLength: 255 },
-        email: { type: 'string', minLength: 1, maxLength: 255 },
-        password: { type: 'string', minLength: 1, maxLength: 255 },
+        idTask: { type: 'integer' },
+        description: { type: 'string', minLength: 1, maxLength: 255 },
+        creationDate: { type: 'datetime' },
+        finishDate: { type: 'datetime' },
       },
     }
   }

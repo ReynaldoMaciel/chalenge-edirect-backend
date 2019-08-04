@@ -1,44 +1,35 @@
 import sha256 from 'sha256'
 import jwt from 'jsonwebtoken'
 
-import { User } from '../models'
+import { user } from '../models'
 
-const registrar = async (user) => {
-  let alreadyCreated = await User.query().where({ email: user.email }).first()
-  if (alreadyCreated) {
-    let error = { message: 'Email already used', statusCode: 400 }
-    throw error
-  }
+const register = async ({ name, email, password }) => {
+  let alreadyCreated = await user.query().where({ email }).first()
+  if (alreadyCreated) throw { message: 'Email already used', statusCode: 400 }
 
-  let newUser = await User.query().insertAndFetch({
-    ...user,
-    senha: sha256(user.senha),
+  let newUser = await user.query().insertAndFetch({
+    name,
+    email,
+    password: sha256(password),
   })
-  delete newUser.senha
+  delete newUser.password
   return newUser
 }
 
 
-const login = async (user) => {
-  let { email, senha } = user
+const login = async ({ email, password }) => {
+  let userRegister = await user.query().where({ email }).first()
+  if (!userRegister) throw { message: 'User not found', statusCode: 400 }
 
-  if (await User.query().where({ email }).first()) {
-    let error = { message: 'User not found', statusCode: 400 }
-    throw error
-  }
-
-  if (sha256(senha) !== user.senha) {
-    let error = { message: 'Incorrect password', statusCode: 400 }
-    throw error
-  }
+  if (sha256(password) !== userRegister.password) throw { message: 'Incorrect password', statusCode: 400 }
 
   return jwt.sign(
-    { idUser: user.idUser, email },
+    { idUser: userRegister.idUser, email },
     process.env.JWT_SECRET,
   )
 }
 
 export default {
-  registrar,
+  register,
   login,
 }

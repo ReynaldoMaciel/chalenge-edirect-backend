@@ -9,9 +9,6 @@ import cors from 'cors'
 
 import bodyparser from 'body-parser'
 
-// AuthRest middleware
-// import auth from './middlewares/authRest'
-
 import router from './routes'
 
 // Le arquivo .env.testing quando NODE_ENV = testing
@@ -24,8 +21,7 @@ app.use(cors())
 
 app.use(bodyparser.json())
 
-// router(app, auth)
-router(app, () => {})
+router(app)
 
 app.listen(process.env.PORT || 3001, () => {
   console.log(`App running on port ${process.env.PORT || 3001}!`)

@@ -4,7 +4,7 @@
 // AutoLoad de rotas
 import fs from 'fs'
 
-export default (app, auth) => {
+export default (app) => {
   let routes = {}
 
   fs.readdirSync(__dirname).forEach((file) => {
@@ -22,7 +22,7 @@ export default (app, auth) => {
     routes[route] = require('./' + route).default
 
     Object.values(routes).forEach(({ path, router }) => {
-      app.use(path, auth, router)
+      app.use(path, router)
     })
   })
 }

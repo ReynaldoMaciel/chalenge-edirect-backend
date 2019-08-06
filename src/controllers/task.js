@@ -5,6 +5,7 @@ const getAll = async (idProject, idUser) => knex.from('task')
   .innerJoin('project', { 'task.idProject': 'project.idProject' })
   .where({ idUser })
   .andWhere('project.idProject', idProject)
+  .orderBy('creationDate', 'asc')
 
 const create = async ({ description, idProject }, idUser) => {
   let projectInfo = await knex.from('project').where({ idProject }).first()
